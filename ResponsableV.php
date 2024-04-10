@@ -1,4 +1,7 @@
 <?php
+    /**
+     * Describe la clase ResponsableV
+    */
     class ResponsableV {
         private $nroEmpleado;
         private $nroLicencia;
@@ -11,6 +14,7 @@
             $this->nombre = $nombre;
             $this->apellido = $apellido;
         }
+
 
         public function __toString() {
             return $this->nombre . " "  . $this->apellido;

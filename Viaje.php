@@ -70,8 +70,7 @@
             }
 
             //Obtener lista de pasajeros
-            public function getListaPasajeros()
-            {
+            public function getListaPasajeros() {
                 return $this->pasajeros;
             }
 
@@ -115,7 +114,7 @@
             }
 
             public function __toString() {
-                return $this->nroViaje . "    " . $this->objResponsableV . "    " . $this->origen . "     " . $this->destino . "    " . $this->cantidadPasajeros . "         " . $this->capacidadMaxima;
+                return $this->nroViaje . " " . $this->objResponsableV . " " . $this->origen . " " . $this->destino . " " . $this->cantidadPasajeros . " " . $this->capacidadMaxima;
             }
 
         }

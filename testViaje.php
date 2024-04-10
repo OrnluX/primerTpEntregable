@@ -13,7 +13,7 @@
     }    
 
     /**
-     * Crea una nueva instancia de la clase Pasajero
+     * Crea una nueva instancia de la clase Pasajero con datos pedidos al usuario
      * @return OBJECT
      */
     function crearInstanciaPasajero() {
@@ -28,7 +28,7 @@
     }
 
     /**
-     * Crea una nueva instancia de la clase Viaje
+     * Crea una nueva instancia de la clase Viaje con datos pedidos al usuario
      * @param ResponsableV $objResponsableV
      * @param INT $nroViaje
      * @return OBJECT
@@ -38,12 +38,13 @@
         echo "***Por favor ingrese la información del viaje*** \n\n";
         $origenViaje = pedirDatoUsuario("origen del viaje");
         $destinoViaje = pedirDatoUsuario("destino del viaje");
+        echo "Viaje creado exitosamente! \n\n";
 
         return new Viaje($objResponsableV, $origenViaje, $destinoViaje, $nroViaje);
     }
 
     /**
-     * Crea una nueva instancia de la clase ResponsableV
+     * Crea una nueva instancia de la clase ResponsableV con datos pedidos al usuario
      * @return OBJECT
      */
     function crearInstanciaResponsableV() {
@@ -63,7 +64,7 @@
      * @param Viaje $objViaje
      */
     function agregarPasajerosAlViaje(Viaje $objViaje){
-        //STING $rta, $pasajeroYaRegistrado
+        //STRING $rta, $pasajeroYaRegistrado, $mensaje
         //Pasajero $objNuevoPasajero
         $rta = null;
         do {
@@ -74,54 +75,81 @@
             $rta = solicitarNumeroEntre(1,2);
             switch ($rta) {
                 case '1':
+                    $mensaje = null;
                     $objNuevoPasajero = crearInstanciaPasajero();
                     $pasajeroYaRegistrado = $objViaje->verificarSiEstaPasajero($objNuevoPasajero);
                     if(!$pasajeroYaRegistrado) {
-                        $objViaje->agregarNuevoPasajero($objNuevoPasajero);
+                        $mensaje = $objViaje->agregarNuevoPasajero($objNuevoPasajero);
+                        echo " \n " . $mensaje . " \n\n";
                     } else {
                         echo "Error. El pasajero ya se encuentra registrado \n";
                     }
-                    break;
-                
-                default:
-                    echo "Se ha finalizado el ingreso de pasajeros al viaje \n";
                     break;
             }
         } while ($rta == 1);
     }
 
     /**PROGRAMA PRINCIPAL */
-
-    //DECLARACIÓN DE VARIABLES
-    //ARRAY $viajes
-    //INT $nroDeViaje
     
     //INICIALIZACIÓN ESTRUCTURAS DE DATOS
     $viajes = [];  
     
     do {
-        $opcion = seleccionarOpcion();
-        switch ($opcion) {
+        $opcionNvlUno = seleccionarOpcionNvlUno();
+        switch ($opcionNvlUno) {
             case '1':
                 $nroDeViaje = count($viajes)+1;
                 $objResponsableV = crearInstanciaResponsableV();
                 $objNuevoViaje = crearInstanciaViaje($objResponsableV, $nroDeViaje);
-                echo "Viaje creado exitosamente! \n\n";
                 agregarPasajerosAlViaje($objNuevoViaje);
                 $viajes[] = $objNuevoViaje;
                 presionarEnterContinuar();
                 break;
-            case '2':
-                if (count($viajes) >= 1) {
-                    echo "***Seleccione el viaje que desea modificar*** \n\n";
-                    echo "N°    Responsable     Origen      Destino     Ocupados    Cap. Máx \n";
-                    foreach ($viajes as $objViaje) {
-                        echo $objViaje . " \n";
-                    }
-                } else {
-                    echo "No hay viajes registrados \n";
-                }
+            case '2':      
+                imprimirCuadriculaViajes($viajes);
+                echo "Ingrese el número de viaje y presione ENTRAR: ";
+                $viajeSeleccionado = solicitarNumeroEntre(1, count($viajes));
 
+                $opcionNvlDos = seleccionarOpcionNvlDosOpDos($viajeSeleccionado);
+                $indiceViaje = $viajeSeleccionado - 1;  
+                switch ($opcionNvlDos) {
+                    case '1':
+                        agregarPasajerosAlViaje($viajes[$indiceViaje]);
+                        break;
+                    case '2':
+                        $pasajeros = $viajes[$indiceViaje]->getListaPasajeros();
+                        imprimirCuadriculaPasajeros($pasajeros);
+                        echo "Ingrese el número de pasajero y presione ENTRAR: ";
+                        $pasajeroSeleccionado = solicitarNumeroEntre(1,count($pasajeros));
+                        $indicePasajero = $pasajeroSeleccionado - 1;
+                        $opcionNvlTres = seleccionarOpcionNvlTresOpDos($pasajeroSeleccionado);
+                        switch ($opcionNvlTres) {
+                            case '1':
+                                $nuevoNombre = pedirDatoUsuario("Nombre");
+                                $pasajeros[$indicePasajero]->setNombre($nuevoNombre);
+                                echo "El nombre ha sido modificado \n";
+                                break;
+                            case '2':
+                                $nuevoApellido = pedirDatoUsuario("Apellido");
+                                $pasajeros[$indicePasajero]->setApellido($nuevoApellido);
+                                echo "El apellido ha sido modificado \n";
+                                break;
+                            case '3':
+                                $nuevoNroDocumento = pedirDatoUsuario("número de documento");
+                                $pasajeros[$indicePasajero]->setNroDocumento($nuevoNroDocumento);
+                                echo "El nro de documento ha sido modificado \n";
+                                break;    
+                            case '4':
+                                $nuevoNroTelefono = pedirDatoUsuario("número de teléfono");
+                                $pasajeros[$indicePasajero]->setNroTelefono($nuevoNroTelefono);
+                                echo "El nro de número de teléfono ha sido modificado \n";
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                        break;
+                }
                 presionarEnterContinuar();
                 break;
             case '3':
@@ -134,6 +162,6 @@
                 break;
         }
 
-    } while ($opcion !=4);
+    } while ($opcionNvlUno !=4);
 
 ?>

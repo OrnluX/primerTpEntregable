@@ -14,23 +14,47 @@
             $this->nroDocumento = $nroDocumento;
             $this->nroTelefono = $nroTelefono;
         }
+        //Obtener nombre del pasajero
+        public function getNombre() {
+            return $this->nombre;
+        }
 
-        /**
-         * Retorna el número de documento de un pasajero.
-         * @return INT  
-        */          
+        //Obtener apellido del pasajero
+        public function getApellido() {
+            return $this->apellido;
+        }
+
+        //Obtener número de documento del pasajero        
         public function getNroDocumento() {
             return $this->nroDocumento;
         }
         
-        /**
-         * Setea la información de un pasajero cuando se desea modificar la misma
-         * @return VOID
-        */
-        public function setNuevaInfoPasajero(string $nuevoNombre, string $nuevoApellido, int $nuevoNroTelefono) {
-            $this->nombre = $nuevoNombre;
-            $this->apellido = $nuevoApellido;
-            $this->nroTelefono = $nuevoNroTelefono;
+        //Obtener número de teléfono del pasajero
+        public function getNroTelefono() {
+            return $this->nroTelefono;
+        }
+
+
+        //SETTERS
+        public function setNombre($nombre) {
+            $this->nombre = $nombre;
+        }
+        
+        public function setApellido($apellido) {
+            $this->apellido = $apellido;
+        }
+
+        public function setNroDocumento($nroDocumento) {
+            $this->nroDocumento = $nroDocumento;
+        }
+
+        public function setNroTelefono($nroTelefono) {
+            $this->nroTelefono = $nroTelefono;
+        }
+        
+        public function __toString()
+        {
+            return $this->nombre . " " . $this->apellido . " " . $this->nroDocumento . " " . $this->nroTelefono;  
         }
     }
 ?>                     
