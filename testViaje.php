@@ -106,62 +106,69 @@
                 presionarEnterContinuar();
                 break;
             case '2':      
-                imprimirCuadriculaViajes($viajes);
-                echo "Ingrese el número de viaje y presione ENTRAR: ";
-                $viajeSeleccionado = solicitarNumeroEntre(1, count($viajes));
+                if (count($viajes) > 0) {
+                    imprimirCuadriculaViajes($viajes);
+                    $viajeSeleccionado = solicitarNumeroEntre(1, count($viajes));
+                    $opcionNvlDos = seleccionarOpcionNvlDosOpDos($viajeSeleccionado);
+                    $indiceViaje = $viajeSeleccionado - 1;  
+                    switch ($opcionNvlDos) {
+                        case '1':
+                            agregarPasajerosAlViaje($viajes[$indiceViaje]);
+                            break;
+                        case '2':
+                            $pasajeros = $viajes[$indiceViaje]->getListaPasajeros();
+                            if(count($pasajeros) > 0) {
+                                imprimirCuadriculaPasajeros($pasajeros);
+                                $pasajeroSeleccionado = solicitarNumeroEntre(1,count($pasajeros));
+                                $indicePasajero = $pasajeroSeleccionado - 1;
+                                $opcionNvlTres = seleccionarOpcionNvlTresOpDos($pasajeroSeleccionado);
+                                switch ($opcionNvlTres) {
+                                    case '1':
+                                        $nuevoNombre = pedirDatoUsuario("Nombre");
+                                        $pasajeros[$indicePasajero]->setNombre($nuevoNombre);
+                                        echo "El nombre ha sido modificado \n";
+                                        break;
+                                    case '2':
+                                        $nuevoApellido = pedirDatoUsuario("Apellido");
+                                        $pasajeros[$indicePasajero]->setApellido($nuevoApellido);
+                                        echo "El apellido ha sido modificado \n";
+                                        break;
+                                    case '3':
+                                        $nuevoNroDocumento = pedirDatoUsuario("número de documento");
+                                        $pasajeros[$indicePasajero]->setNroDocumento($nuevoNroDocumento);
+                                        echo "El nro de documento ha sido modificado \n";
+                                        break;    
+                                    case '4':
+                                        $nuevoNroTelefono = pedirDatoUsuario("número de teléfono");
+                                        $pasajeros[$indicePasajero]->setNroTelefono($nuevoNroTelefono);
+                                        echo "El nro de número de teléfono ha sido modificado \n";
+                                        break;
+                                    default:
+                                        break;
+                                } 
+                            } else {
+                                echo "No hay pasajeros registrados en este viaje \n";
+                            }
+                            break;
+                        case '3':
+                            $responsableActual = $viajes[$indiceViaje]->getResponsableV();
+                            echo "Nro Empleado: " .$responsableActual->getNroEmpleado() . "\n";
+                            echo "Nro Licencia: " . $responsableActual->getNroLicencia() . "\n";
+                            echo "Nombre: " . $responsableActual->getNombre() . "\n"; 
+                            echo "Apellido: " . $responsableActual->getApellido() . "\n"; 
 
-                $opcionNvlDos = seleccionarOpcionNvlDosOpDos($viajeSeleccionado);
-                $indiceViaje = $viajeSeleccionado - 1;  
-                switch ($opcionNvlDos) {
-                    case '1':
-                        agregarPasajerosAlViaje($viajes[$indiceViaje]);
-                        break;
-                    case '2':
-                        $pasajeros = $viajes[$indiceViaje]->getListaPasajeros();
-                        imprimirCuadriculaPasajeros($pasajeros);
-                        echo "Ingrese el número de pasajero y presione ENTRAR: ";
-                        $pasajeroSeleccionado = solicitarNumeroEntre(1,count($pasajeros));
-                        $indicePasajero = $pasajeroSeleccionado - 1;
-                        $opcionNvlTres = seleccionarOpcionNvlTresOpDos($pasajeroSeleccionado);
-                        switch ($opcionNvlTres) {
-                            case '1':
-                                $nuevoNombre = pedirDatoUsuario("Nombre");
-                                $pasajeros[$indicePasajero]->setNombre($nuevoNombre);
-                                echo "El nombre ha sido modificado \n";
-                                break;
-                            case '2':
-                                $nuevoApellido = pedirDatoUsuario("Apellido");
-                                $pasajeros[$indicePasajero]->setApellido($nuevoApellido);
-                                echo "El apellido ha sido modificado \n";
-                                break;
-                            case '3':
-                                $nuevoNroDocumento = pedirDatoUsuario("número de documento");
-                                $pasajeros[$indicePasajero]->setNroDocumento($nuevoNroDocumento);
-                                echo "El nro de documento ha sido modificado \n";
-                                break;    
-                            case '4':
-                                $nuevoNroTelefono = pedirDatoUsuario("número de teléfono");
-                                $pasajeros[$indicePasajero]->setNroTelefono($nuevoNroTelefono);
-                                echo "El nro de número de teléfono ha sido modificado \n";
-                                break;
-                            default:
-                                # code...
-                                break;
-                        }
-                        break;
+                            break;
+                    }
+                } else {
+                    echo "No hay viajes registrados \n";
                 }
                 presionarEnterContinuar();
-                break;
-            case '3':
-                echo "Opción 3 seleccionada \n";
-                presionarEnterContinuar();
-            break;    
-            
+                break;   
             default:
                 echo "Fin del programa";
                 break;
         }
 
-    } while ($opcionNvlUno !=4);
+    } while ($opcionNvlUno !=3);
 
 ?>

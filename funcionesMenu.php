@@ -5,12 +5,14 @@
     */
     function seleccionarOpcionNvlUno() {
         //INT $opcionSeleccionada
+        echo " \n";
+        echo "¿Qué desea hacer?";
+        echo " \n";
         echo "1- Agregar un nuevo viaje \n";
-        echo "2- Modificar un viaje \n";
-        echo "3- Consultar información sobre viajes \n"; 
-        echo "4- Salir del programa \n";
+        echo "2- Ver o modificar un viaje \n";
+        echo "3- Salir del programa \n";
         echo "Ingrese la opción deseada: ";
-        $opcionSeleccionada = solicitarNumeroEntre(1,4);
+        $opcionSeleccionada = solicitarNumeroEntre(1,3);
         return $opcionSeleccionada;
     }
 
@@ -25,14 +27,14 @@
         echo "****MENÚ VIAJE N° " . $viajeSeleccionado . "***** \n\n";
         echo "1-Cargar pasajeros \n";
         echo "2-Modificar información de pasajeros \n";
+        echo "3-Ver información de la persona a cargo del viaje \n";
         echo "Ingrese la opción deseada: ";
-        $opcionSeleccionada = solicitarNumeroEntre(1,2);
+        $opcionSeleccionada = solicitarNumeroEntre(1,3);
         return $opcionSeleccionada;
     }
 
     /**
-     * Función que muestra el tercer nivel del menú, opción 2 del menú principal
-     * @param INT
+     * Función que muestra el tercer nivel del menú, opción 2
      * @return INT
     */
     function seleccionarOpcionNvlTresOpDos($pasajeroSeleccionado) {
@@ -64,23 +66,22 @@
     *@return VOID  
     */ 
     function imprimirCuadriculaViajes($viajes) {
-        if (count($viajes) > 0) {
-            $identacion = "         ";
-            echo "***Seleccione el viaje que desea modificar*** \n\n";
-            echo "N°" . $identacion . "Responsable" . $identacion . "Origen" . $identacion .  "Destino" . $identacion . "Ocupados" . $identacion . "Disponibles \n";
-            foreach ($viajes as $objViaje) {
-                $nroViaje = $objViaje->getNroViaje();
-                $responsableViaje = $objViaje->getResponsableV();
-                $origen = $objViaje->getOrigenViaje();
-                $destino = $objViaje->getDestinoViaje();
-                $ocupados = $objViaje->getCantidadPasajeros();
-                $disponibles = $objViaje->getAsientosDisponibles();
-                
-                echo $nroViaje . $identacion . $responsableViaje . $identacion . $origen . $identacion . $destino . $identacion . $ocupados . $identacion . $identacion . $disponibles . " \n";
-            }
-        } else {
-            echo "No hay viajes registrados \n";
+        
+        $identacion = "         ";
+        echo "***Seleccione el viaje que desea ver modificar*** \n\n";
+        echo "N°" . $identacion . "Responsable" . $identacion . "Origen" . $identacion .  "Destino" . $identacion . "Ocupados" . $identacion . "Disponibles \n";
+        foreach ($viajes as $objViaje) {
+            $nroViaje = $objViaje->getNroViaje();
+            $responsableViaje = $objViaje->getResponsableV();
+            $origen = $objViaje->getOrigenViaje();
+            $destino = $objViaje->getDestinoViaje();
+            $ocupados = $objViaje->getCantidadPasajeros();
+            $disponibles = $objViaje->getAsientosDisponibles();
+            
+            echo $nroViaje . $identacion . $responsableViaje . $identacion . $origen . $identacion . $destino . $identacion . $ocupados . $identacion . $identacion . $disponibles . " \n\n";
         }
+        echo "Ingrese el número de viaje y presione ENTRAR: ";
+       
     }
 
     /**
@@ -100,9 +101,10 @@
                 $apellido = $pasajeros[$i]->getApellido();
                 $nroDoc = $pasajeros[$i]->getNroDocumento();
                 $telefono = $pasajeros[$i]->getNroTelefono();
-                echo $pasajeroNro . $identacion . $nombre . $identacion . $apellido . $identacion . $nroDoc . $identacion . $telefono . " \n";
+                echo $pasajeroNro . $identacion . $nombre . $identacion . $apellido . $identacion . $nroDoc . $identacion . $telefono . " \n\n";
                 $nroPasajero++;
             }
+            echo "Ingrese el número de pasajero y presione ENTRAR: ";
         } else {
             echo "No hay pasajeros registrados \n";
         }
