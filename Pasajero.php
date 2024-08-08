@@ -14,22 +14,20 @@
             $this->nroDocumento = $nroDocumento;
             $this->nroTelefono = $nroTelefono;
         }
-        //Obtener nombre del pasajero
+
+        //GETTERS
         public function getNombre() {
             return $this->nombre;
         }
 
-        //Obtener apellido del pasajero
         public function getApellido() {
             return $this->apellido;
         }
 
-        //Obtener número de documento del pasajero        
         public function getNroDocumento() {
             return $this->nroDocumento;
         }
         
-        //Obtener número de teléfono del pasajero
         public function getNroTelefono() {
             return $this->nroTelefono;
         }

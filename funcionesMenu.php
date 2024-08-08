@@ -76,9 +76,9 @@
             $origen = $objViaje->getOrigenViaje();
             $destino = $objViaje->getDestinoViaje();
             $ocupados = $objViaje->getCantidadPasajeros();
-            $disponibles = $objViaje->getAsientosDisponibles();
+            // $disponibles = $objViaje->getAsientosDisponibles();
             
-            echo $nroViaje . $identacion . $responsableViaje . $identacion . $origen . $identacion . $destino . $identacion . $ocupados . $identacion . $identacion . $disponibles . " \n\n";
+            echo $nroViaje . $identacion . $responsableViaje . $identacion . $origen . $identacion . $destino . $identacion . $ocupados . $identacion . $identacion . " \n\n";
         }
         echo "Ingrese el número de viaje y presione ENTRAR: ";
        

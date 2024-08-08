@@ -1,22 +1,4 @@
 <?php
-
-/**
- * Importante: Deben enviar el link a la resolución en su repositorio en GitHub del ejercicio.
-
-    La empresa de Transporte de Pasajeros “Viaje Feliz” quiere registrar la información referente a sus viajes. De cada viaje se precisa almacenar el código del mismo, destino, cantidad máxima de pasajeros y los pasajeros del viaje.
-
-    Realice la implementación de la clase Viaje e implemente los métodos necesarios para modificar los atributos de dicha clase (incluso los datos de los pasajeros). Utilice clases y arreglos  para   almacenar la información correspondiente a los pasajeros. Cada pasajero guarda  su “nombre”, “apellido” y “numero de documento”.
-
-    Implementar un script testViaje.php que cree una instancia de la clase Viaje y presente un menú que permita cargar la información del viaje, modificar y ver sus datos.
-
-    Modificar la clase Viaje para que ahora los pasajeros sean un objeto que tenga los atributos nombre, apellido, numero de documento y teléfono. El viaje ahora contiene una referencia a una colección de objetos de la clase Pasajero. También se desea guardar la información de la persona responsable de realizar el viaje, para ello cree una clase ResponsableV que registre el número de empleado, número de licencia, nombre y apellido. La clase Viaje debe hacer referencia al responsable de realizar el viaje.
-
-    Implementar las operaciones que permiten modificar el nombre, apellido y teléfono de un pasajero. Luego implementar la operación que agrega los pasajeros al viaje, solicitando por consola la información de los mismos. Se debe verificar que el pasajero no este cargado mas de una vez en el viaje. De la misma forma cargue la información del responsable del viaje.
-
-    Nota: Recuerden que deben enviar el link a la resolución en su repositorio en GitHub.
-*/
-    
-
     /**
      * Describe la clase viaje. Cada instancia sera un viaje, el cual tendrá un Responsable de viaje, una lista de Pasajeros y un identificador único.
     */
@@ -25,53 +7,74 @@
             private $nroViaje;
             private $origen;    
             private $destino;
-            private $cantidadPasajeros = 0;
-            private $capacidadMaxima = 20;
+            private $capacidadMaxima;
             private $objResponsableV;
-            private $pasajeros = [];
+            private $arrayPasajeros;
 
             //CONSTRUCTOR
-            public function __construct(ResponsableV $viajeResponsable, string $viajeOrigen, string $viajeDestino, int $nroViaje) {
+            public function __construct(ResponsableV $viajeResponsable, string $viajeOrigen, string $viajeDestino, int $nroViaje, int $capacidadMaxima) {
+                $this->nroViaje = $nroViaje;
                 $this->objResponsableV = $viajeResponsable;
                 $this->origen = $viajeOrigen;
                 $this->destino = $viajeDestino;
-                $this->nroViaje = $nroViaje;
+                $this->capacidadMaxima = $capacidadMaxima;
+                $this->arrayPasajeros = [];
             }
 
-            //Número de viaje
+            //GETTERS
             public function getNroViaje() {
                 return $this-> nroViaje;
             }
             
-            //Obtener persona responsable del viaje
             public function getResponsableV() {
                 return $this->objResponsableV;
             }
 
-            //Obtener origen del viaje
             public function getOrigenViaje() {
                 return $this->origen;
             }
 
-            //Obtener destino del viaje
             public function getDestinoViaje() {
                 return $this->destino;
             }
 
-            //Obtener cantidad de pasajeros actual del viaje
+            public function getCapacidadMax(){
+                return $this->capacidadMaxima;
+                
+            }
+
+            public function getArrayPasajeros() {
+                return $this->arrayPasajeros;
+            }
+
             public function getCantidadPasajeros() {
-                return $this->cantidadPasajeros;
+                return count($this->arrayPasajeros);
             }
 
-            //Obtener cantidad de asientos disponibles
-            public function getAsientosDisponibles(){
-                $disponibles = $this->capacidadMaxima - $this->cantidadPasajeros;
-                return $disponibles;
+            //SETTERS
+
+            public function setNroViaje($nroViaje){
+                $this->nroViaje = $nroViaje;
             }
 
-            //Obtener lista de pasajeros
-            public function getListaPasajeros() {
-                return $this->pasajeros;
+            public function setResponsableV($objResponsableV){
+                $this->objResponsableV = $objResponsableV;
+            }
+
+            public function setOrigenViaje($origen) {
+                $this->origen = $origen;
+            }
+
+            public function setDestinoViaje($destino){
+                $this->destino = $destino;
+            }
+
+            public function setCapacidadMax($capacidadMaxima) {
+                $this->capacidadMaxima = $capacidadMaxima;
+            }
+
+            public function setPasajeros($pasajeros){
+                $this->arrayPasajeros = $pasajeros;
             }
 
             /**
@@ -83,13 +86,13 @@
                 //BOOLEAN $encontrado
                 //INT $count
                 $encontrado = false;
-                $count = 0;
+                $indice = 0;
 
-                while (($encontrado == false) && ($count < $this->cantidadPasajeros)) {
-                    if(($this->pasajeros[$count]->getNroDocumento()) == $objNuevoPasajero->getNroDocumento()) {
+                while (($encontrado == false) && ($indice < $this->getCantidadPasajeros())) {
+                    if(($this->arrayPasajeros[$indice]->getNroDocumento()) == $objNuevoPasajero->getNroDocumento()) {
                         $encontrado = true;
                     }
-                    $count++;
+                    $indice++;
                 }
                 return $encontrado;
             }
@@ -99,22 +102,29 @@
              * @param OBJECT $objPasajeroNuevo
              * @return STRING 
             */
-            public function agregarNuevoPasajero(Pasajero $ObjPasajeroNuevo) {
+            public function agregarNuevoPasajero(Pasajero $objPasajeroNuevo) {
                 //STRING $mensaje
+                //ANTES QUE NADA, VERIFICAR SI EL PASAJERO ESTÁ, PARA SABER SI SE PUEDE AGREGAR, O NO
+                $pasajeroEsta = $this->verificarSiEstaPasajero($objPasajeroNuevo);
                 $mensaje = null;
 
-                if (($this->cantidadPasajeros) < ($this->capacidadMaxima)) {
-                    $this->pasajeros[] = $ObjPasajeroNuevo;
-                    $this->cantidadPasajeros +=1;
-                    $mensaje = "Pasajero agregado correctamente!";
+                if ($pasajeroEsta) {
+                    $mensaje = "Error! El pasajero ya se encuentra cargado";
                 } else {
-                    $mensaje = "El viaje ha alcanzado su capacidad máxima!";
+                    if (($this->getCantidadPasajeros()) < ($this->getCapacidadMax())) {
+                        $nuevoArrayDePasajeros = $this->getArrayPasajeros();
+                        $nuevoArrayDePasajeros[] = $objPasajeroNuevo;
+                        $this->setPasajeros($nuevoArrayDePasajeros);
+                        $mensaje = "Pasajero agregado correctamente!";
+                    } else {
+                        $mensaje = "El viaje ha alcanzado su capacidad máxima!";
+                    } 
                 }
                 return $mensaje;
             }
 
             public function __toString() {
-                return $this->nroViaje . " " . $this->objResponsableV . " " . $this->origen . " " . $this->destino . " " . $this->cantidadPasajeros . " " . $this->capacidadMaxima;
+                return $this->nroViaje . " " . $this->objResponsableV . " " . $this->origen . " " . $this->destino . " " . count($this->arrayPasajeros) . " " . $this->capacidadMaxima;
             }
 
         }
