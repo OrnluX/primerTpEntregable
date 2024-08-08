@@ -47,10 +47,6 @@
                 return $this->arrayPasajeros;
             }
 
-            public function getCantidadPasajeros() {
-                return count($this->arrayPasajeros);
-            }
-
             //SETTERS
 
             public function setNroViaje($nroViaje){
@@ -75,6 +71,23 @@
 
             public function setPasajeros($pasajeros){
                 $this->arrayPasajeros = $pasajeros;
+            }
+
+
+            /**
+             * Obtiene y devuelve la cantidad de pasajeros que hay en el viaje.
+             * @return INT
+             */
+            public function getCantidadPasajeros() {
+                return count($this->arrayPasajeros);
+            }
+
+            /**
+             * Calcula y devuelve la cantidad de asientos disponibles
+             * @return INT
+             */
+            public function obtenerAsientosDisponibles() {
+                return  $this->getCapacidadMax() - $this->getCantidadPasajeros();
             }
 
             /**
