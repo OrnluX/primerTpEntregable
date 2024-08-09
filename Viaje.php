@@ -73,6 +73,20 @@
                 $this->arrayPasajeros = $pasajeros;
             }
 
+            /**
+             * Convierte un array en una cadena de texto
+             * @return STRING 
+            */
+            public function arrayComoString($array) {
+                //ARRAY $array
+                //STRING $cadena
+                $cadena = "";
+                for ($i=0; $i < count($array); $i++) { 
+                    $cadena . "\n " . $array[$i];
+                }
+
+                return $cadena;
+            }
 
             /**
              * Obtiene y devuelve la cantidad de pasajeros que hay en el viaje.
@@ -137,7 +151,7 @@
             }
 
             public function __toString() {
-                return $this->getNroViaje() . " " . $this->getResponsableV() . " " . $this->getOrigenViaje() . " " . $this->getDestinoViaje() . " " . $this->getCantidadPasajeros() . " " . $this->getCapacidadMax();
+                return $this->getNroViaje() . " " . $this->getResponsableV() . " " . $this->getOrigenViaje() . " " . $this->getDestinoViaje() . " " . $this->getCantidadPasajeros() . " " . $this->getCapacidadMax() . " " .$this->arrayComoString($this->getArrayPasajeros());
             }
 
         }
