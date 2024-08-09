@@ -97,7 +97,7 @@
             */
             public function verificarSiEstaPasajero(Pasajero $objNuevoPasajero) {
                 //BOOLEAN $encontrado
-                //INT $count
+                //INT $indice
                 $encontrado = false;
                 $indice = 0;
 
