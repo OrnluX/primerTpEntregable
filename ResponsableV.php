@@ -50,7 +50,7 @@
         }
 
         public function __toString() {
-            return $this->nombre . " " . $this->apellido;
+            return $this->getNombre() . " " . $this->getApellido() . " " . $this->getNroEmpleado() . " " . $this->getNroLicencia();
         }
     }
 ?>

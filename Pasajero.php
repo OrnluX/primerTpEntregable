@@ -52,7 +52,7 @@
         
         public function __toString()
         {
-            return $this->nombre . " " . $this->apellido . " " . $this->nroDocumento . " " . $this->nroTelefono;  
+            return $this->getNombre() . " " . $this->getApellido() . " " . $this->getNroDocumento() . " " . $this->getNroTelefono();  
         }
     }
 ?>                     

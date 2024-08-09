@@ -137,7 +137,7 @@
             }
 
             public function __toString() {
-                return $this->nroViaje . " " . $this->objResponsableV . " " . $this->origen . " " . $this->destino . " " . count($this->arrayPasajeros) . " " . $this->capacidadMaxima;
+                return $this->getNroViaje() . " " . $this->getResponsableV() . " " . $this->getOrigenViaje() . " " . $this->getDestinoViaje() . " " . $this->getCantidadPasajeros() . " " . $this->getCapacidadMax();
             }
 
         }
